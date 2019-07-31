@@ -13,7 +13,7 @@ class SkladAdmin(admin.ModelAdmin):
         extra = 0
     class TrotuarkaInline(admin.StackedInline):
         model = Trotuarka
-        extra = 2
+        extra = 0
     
     inlines = [ZaborInline, TrotuarkaInline]
     
