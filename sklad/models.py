@@ -27,8 +27,8 @@ class Materials(models.Model):
     sklad = models.ForeignKey(Sklad, on_delete=models.CASCADE)
     pesok = models.IntegerField(verbose_name='Песок т.')
     cement = models.IntegerField(verbose_name='Цемент т.')
-    scheben = models.IntegerField(verbose_name='Щебень т.')
-    zavoz = models.DateField(verbose_name='Дата завоза ', blank=True, null=True)
+    scheben = models.IntegerField(verbose_name='Щебень т. ')
+    zavoz = models.DateField(verbose_name='Дата завоза', blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Материалы"
