@@ -39,8 +39,11 @@ class Izdelie(models.Model):
     sklad = models.ForeignKey(Sklad, on_delete=models.CASCADE)
     description = models.TextField(max_length=100, verbose_name="Описание")
     price = models.IntegerField(verbose_name="Цена")
-    amount = models.IntegerField(verbose_name='Количество', help_text='Для заборов и памятников указывается количество изделий.\r\n Для плитки - квадратов')
-
+    amount = models.IntegerField(verbose_name='Количество', help_text='Для заборов и памятников указывается количество изделий. Для плитки - квадратов')
+    
+    def getsklad(self):
+        return self.sklad.storage
+        
     class Meta:
         abstract = True
 
