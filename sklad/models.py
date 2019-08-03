@@ -28,7 +28,7 @@ class Materials(models.Model):
     pesok = models.IntegerField(verbose_name='Песок т.')
     cement = models.IntegerField(verbose_name='Цемент т.')
     scheben = models.IntegerField(verbose_name='Щебень т.')
-    zavoz = models.DateField(verbose_name='Дата завоза', blank=True, null=True)
+    zavoz = models.DateField(verbose_name='Дата завоза ', blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Материалы"
