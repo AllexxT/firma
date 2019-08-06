@@ -34,15 +34,52 @@ class Materials(models.Model):
         verbose_name_plural = "Материалы"
         verbose_name = "Материал"
 
+
+class ColorAndPrice(models.Model):
+    trotuarka = models.ForeignKey('Trotuarka', null=True, on_delete=models.CASCADE)
+    cost = models.IntegerField(default=100, )
+    amount = models.IntegerField(verbose_name='Количество', help_text='Количество квадратов', null=True)
+    
+    def showName(self):
+        return self.trotuarka
+
+    clrs = (
+        ('GR', 'Серый'),
+        ('BR', 'Коричневый'),
+        ('YE', 'Жёлтый'),
+        ('OL', 'Оливковый'),
+        ('BL', 'Синий'),
+        ('RED', 'Красный')
+    )
+    color = models.CharField(
+        max_length=15,
+        choices=clrs,
+        default='GR',
+        verbose_name='Цвет'
+    )
+    
+    def __str__(self):
+        return 'Цвет-%s;Цена-%d;Количество-%d' % (self.color, self.cost, self.amount)
+
+    class Meta:
+        verbose_name_plural = "Цвет/Цена/Количество тротуарной плитки"
+        verbose_name = "Цвет/Цена/Количество тротуарной плитки"
+
     
 class Izdelie(models.Model):
     sklad = models.ForeignKey(Sklad, on_delete=models.CASCADE)
     description = models.TextField(max_length=100, verbose_name="Описание")
-    price = models.IntegerField(verbose_name="Цена")
-    amount = models.IntegerField(verbose_name='Количество', help_text='Для заборов и памятников указывается количество изделий. Для плитки - квадратов')
-    
+    price = models.IntegerField(verbose_name="Цена", null=True)
+    amount = models.IntegerField(verbose_name='Количество', null=True, help_text='Для заборов и памятников указывается количество изделий. Для плитки - квадратов')
+    # colorandprice = models.ManyToManyField(ColorAndPrice, verbose_name='Цвет/Цена',blank=True)
+
+
     def getsklad(self):
         return self.sklad.storage
+    
+    def getinfo(self):
+        return self.colorandprice_set
+
         
     class Meta:
         abstract = True
@@ -68,7 +105,11 @@ class Zabor(Izdelie):
         verbose_name = "Забор"
 
 
+
+
+
 class Trotuarka(Izdelie):
+
     names = (
         ('st_gor', 'Старый Город'),
         ('kirpichik', 'Кирпичик'),
@@ -79,6 +120,8 @@ class Trotuarka(Izdelie):
         choices=names, 
         verbose_name='Название изделия', 
     )
+    
+
 
     colors = (
         ('GR', 'Серый'),

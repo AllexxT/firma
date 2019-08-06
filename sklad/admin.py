@@ -1,8 +1,23 @@
 from django.contrib import admin
-from .models import Sklad, Trotuarka, Zabor, Materials
+from .models import Sklad, Trotuarka, Zabor, Materials, ColorAndPrice
 
 # Register your models here.
 
+
+@admin.register(ColorAndPrice)
+class ColorAndPriceAdmin(admin.ModelAdmin):
+    fields = (
+        'cost',
+        'color',
+        'amount',
+        'trotuarka'
+    )
+    list_display = (
+        'showName',
+        'color',
+        'cost',
+        'amount'
+    )
 
 
 @admin.register(Sklad)
@@ -28,21 +43,22 @@ class SkladAdmin(admin.ModelAdmin):
 
 @admin.register(Trotuarka)
 class TrotuarkaAdmin(admin.ModelAdmin):
+
+    class ColorAndPriceInline(admin.TabularInline):
+        model = ColorAndPrice
+        extra = 0
+    inlines = [ColorAndPriceInline,]
+
     fields = (
         'name',
         'sklad',
-        'price',
         'description',
-        'color',
-        'amount',
     )
 
     list_display = (
         'name',
         'sklad',
-        'price',
         'description',
-        'color',
         'amount',
     )
 
