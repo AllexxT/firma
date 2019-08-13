@@ -5,14 +5,16 @@ from . import views
 from rest_framework import routers
 
 
-router = routers.DefaultRouter()
-router.register(r'trotuarka', views.TrotuarkaViewSet)
-router.register(r'zabor', views.ZaborViewSet)
+# router = routers.DefaultRouter()
+# router.register(r'trotuarka/', views.TrotuarkaViewSet)
+# # router.register(r'zabor', views.ZaborViewSet)
 
 
 
 
 urlpatterns = [
     path('', views.hello),
-    re_path(r'^', include(router.urls))
+    path('trotuarka/', views.TrotuarkaViewSet.as_view()),
+    path('zabor/', views.ZaborView.as_view()),
+    # re_path(r'^', include(router.urls))
 ]
