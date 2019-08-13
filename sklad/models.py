@@ -12,9 +12,9 @@ class Sklad(models.Model):
         max_length=10,
         choices=storages, 
         help_text='Name of storage',
-        default='trotuarka'
+        default='trotuarka',
+        unique=True
     )
-
     class Meta:
         verbose_name_plural = 'Склад'
         verbose_name = 'Склад'
@@ -55,7 +55,7 @@ class ColorAndPrice(models.Model):
         max_length=15,
         choices=clrs,
         default='GR',
-        verbose_name='Цвет'
+        verbose_name='Цвет',
     )
     
     def __str__(self):
@@ -67,38 +67,34 @@ class ColorAndPrice(models.Model):
 
     
 class Izdelie(models.Model):
-    sklad = models.ForeignKey(Sklad, on_delete=models.CASCADE)
+    sklad = models.ForeignKey(Sklad, on_delete=models.CASCADE, to_field='storage')
     description = models.TextField(max_length=100, verbose_name="Описание")
     price = models.IntegerField(verbose_name="Цена", null=True)
     amount = models.IntegerField(verbose_name='Количество', null=True, help_text='Для заборов и памятников указывается количество изделий. Для плитки - квадратов')
-    # colorandprice = models.ManyToManyField(ColorAndPrice, verbose_name='Цвет/Цена',blank=True)
-
 
     def getsklad(self):
         return self.sklad.storage
-    
+
     def getinfo(self):
         return self.colorandprice_set
-
         
     class Meta:
         abstract = True
 
 
 class Zabor(Izdelie):
-    names = (
-        ('fagot', 'Фагот'),
-        ('krim', 'Крым'),
-        ('but', 'Бут'),
-    )
+    # names = (
+    #     ('fagot', 'Фагот'),
+    #     ('krim', 'Крым'),
+    #     ('but', 'Бут'),
+    # )
     name = models.CharField(
         max_length=15, 
-        choices=names, 
         verbose_name='Название изделия',
     )
 
     def __str__(self):
-        return self.get_name_display()
+        return self.name
     
     class Meta:
         verbose_name_plural = "Заборы"
@@ -119,23 +115,6 @@ class Trotuarka(Izdelie):
         max_length=15, 
         choices=names, 
         verbose_name='Название изделия', 
-    )
-    
-
-
-    colors = (
-        ('GR', 'Серый'),
-        ('BR', 'Коричневый'),
-        ('YE', 'Жёлтый'),
-        ('OL', 'Оливковый'),
-        ('BL', 'Синий'),
-        ('RED', 'Красный')
-    )
-    color = models.CharField(
-        max_length=15,
-        choices=colors,
-        default='GR',
-        verbose_name='Цвет'
     )
 
     def __str__(self):

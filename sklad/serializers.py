@@ -2,6 +2,14 @@ from .models import Trotuarka, Zabor, Materials, Sklad, Izdelie, ColorAndPrice
 from rest_framework import serializers
 
 
+class SkladSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Sklad
+        fields = (
+            'storage',
+        )
+
 class ColorAndPriceSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -30,7 +38,7 @@ class TroruarkaSerializer(serializers.ModelSerializer):
 
 
 class ZaborSerializer(serializers.ModelSerializer):
-    # sklad = SkladSerializer()
+    # getsklad = SkladSerializer()
 
     class Meta:
         model = Zabor
@@ -41,4 +49,18 @@ class ZaborSerializer(serializers.ModelSerializer):
             'amount', 
             'id', 
             'getsklad'
+        )
+
+
+class ZaborPostSerializer(serializers.ModelSerializer):
+    # sklad = SkladSerializer()
+
+    class Meta:
+        model = Zabor
+        fields = (
+            'name', 
+            'description', 
+            'price', 
+            'amount', 
+            'sklad',
         )
